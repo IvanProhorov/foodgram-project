@@ -1,5 +1,5 @@
 [![foodgram-project](https://github.com/IvanProhorov/foodgram-project/actions/workflows/main.yml/badge.svg)](https://github.com/IvanProhorov/foodgram-project/actions/workflows/main.yml)
-
+# foodgram-project — [«Продуктовый помощник»](http://178.154.211.92/)	
 Приложение «Продуктовый помощник»: сайт, на котором пользователи будут публиковать рецепты, добавлять чужие рецепты в избранное и подписываться на публикации других авторов. Сервис «Список покупок» позволит пользователям создавать список продуктов, которые нужно купить для приготовления выбранных блюд.
 ## Подготовка к работе:
 
