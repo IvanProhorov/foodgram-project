@@ -14,8 +14,8 @@ urlpatterns = [
     path('auth/', include('users.urls')),
     path('auth/', include('django.contrib.auth.urls')),
     path('api/', include('api.urls')),
-    path('favicon/ico', RedirectView.as_view(
-        url='/static/images/favicon.ico'), name='favicon'),
+    # path('favicon/ico', RedirectView.as_view(
+    #     url='/static/images/favicon.ico'), name='favicon'),
     path('about/author', views.FoodgramAuthorView.as_view(), name='author'),
     path('about/technologies', views.FoodgramTechnologiesView.as_view(),
          name='technologies'),
