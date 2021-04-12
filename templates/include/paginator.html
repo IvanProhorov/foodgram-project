@@ -23,8 +23,7 @@
         </li>
         {% else %}
         <li class="pagination__item"><a class="pagination__link link"
-                                        href="?{{ request|change_page_url:i }}">{{
-            i }}</a></li>
+                                        href="?{{ request|change_page_url:i }}">{{ i }}</a></li>
         {% endif %}
         {% endfor %}
 

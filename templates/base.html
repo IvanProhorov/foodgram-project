@@ -1,21 +1,27 @@
 <!doctype html>
-<html lang="en">
+{% load static %}
+<html lang="ru">
 <head>
+    <title>Продуктовый помощник</title>
+    <link rel="shortcut icon" type="image/png"
+          href="{% static 'images\favicon.ico' %}"/>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}{% endblock %}</title>
     {% block static %}
+
     {% endblock %}
 </head>
 <body class="body">
-{% include 'nav.html' %}
+{% include 'include\nav.html' %}
 {% block content %}
 <!-- Содержимое страницы -->
 {% endblock content %}
-{% include 'footer.html' %}
+{% include 'include\footer.html' %}
 {% block js %}
 {% endblock %}
+
 </body>
 </html>

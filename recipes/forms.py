@@ -1,6 +1,8 @@
 from django.forms import ModelForm
+from django.shortcuts import get_object_or_404
 
-from .models import Ingredient, Recipe
+from .models import Ingredient, Recipe, RecipeIngredient
+from .utils import get_ingredients
 
 
 class RecipeForm(ModelForm):
@@ -33,4 +35,13 @@ class RecipeForm(ModelForm):
 
         if not ingredient_added:
             self.add_error('ingredients',
-                           'Добавьте ингредиенты к совему рецепту')
+                           'Добавьте ингредиенты к своему рецепту')
+
+    def save_recipe(self, request, recipe):
+        ingredients = get_ingredients(request)
+        for title, amount in ingredients.items():
+            ingredient = get_object_or_404(Ingredient, title=title)
+            recipe_ing = RecipeIngredient(recipe=recipe,
+                                          ingredient=ingredient,
+                                          amount=amount)
+            recipe_ing.save()
