@@ -75,7 +75,8 @@ class ShoppingListView(View):
                     request.session[settings.PURCHASE_SESSION_ID] = list()
 
                 if recipe_id not in request.session[
-                    settings.PURCHASE_SESSION_ID]:
+                    settings.PURCHASE_SESSION_ID
+                ]:
                     request.session[settings.PURCHASE_SESSION_ID].append(
                         recipe_id)
                     request.session.save()
