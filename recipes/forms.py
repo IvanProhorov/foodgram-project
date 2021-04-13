@@ -39,13 +39,9 @@ class RecipeForm(ModelForm):
 
     def save_recipe(self, request, recipe):
         ingredients = get_ingredients(request)
-        print(ingredients)
         for title, amount in ingredients.items():
             ingredient = get_object_or_404(Ingredient, title=title)
-            print(ingredient)
-            print(recipe, ingredient, amount)
             recipe_ing = RecipeIngredient(recipe=recipe,
                                           ingredient=ingredient,
                                           amount=amount)
-            print(recipe_ing.recipe, recipe_ing.ingredient, recipe_ing.amount)
             recipe_ing.save()
