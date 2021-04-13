@@ -24,12 +24,12 @@ class Ingredient(models.Model):
     dimension = models.CharField(max_length=64,
                                  verbose_name='ingredient dimension')
 
-    def __str__(self):
-        return f'{self.pk} - {self.title} - {self.dimension}'
-
     class Meta:
         verbose_name = "ingredient"
         verbose_name_plural = "ingredients"
+
+    def __str__(self):
+        return f'{self.pk} - {self.title} - {self.dimension}'
 
 
 class Tag(models.Model):
@@ -38,15 +38,18 @@ class Tag(models.Model):
                             unique=True)
     color = models.SlugField(verbose_name='tag color')
 
-    def __str__(self):
-        return f'{self.title}'
-
     class Meta:
         verbose_name = "tag"
         verbose_name_plural = "tags"
 
+    def __str__(self):
+        return f'{self.title}'
+
 
 class RecipeManager(models.Manager):
+    class Meta:
+        verbose_name = "recipe manager"
+        verbose_name_plural = "recipe managers"
 
     @staticmethod
     def tag_filter(tags):
@@ -55,10 +58,6 @@ class RecipeManager(models.Manager):
                 '-pub_date').distinct()
         else:
             return Recipe.objects.order_by('-pub_date').all()
-
-    class Meta:
-        verbose_name = "recipe manager"
-        verbose_name_plural = "recipe managers"
 
 
 class Recipe(models.Model):
@@ -83,12 +82,12 @@ class Recipe(models.Model):
 
     objects = RecipeManager()
 
-    def __str__(self):
-        return f'{self.pk} - {self.title} - {self.author}'
-
     class Meta:
         verbose_name = "recipe"
         verbose_name_plural = "recipes"
+
+    def __str__(self):
+        return f'{self.pk} - {self.title} - {self.author}'
 
 
 class RecipeIngredient(models.Model):
@@ -106,6 +105,9 @@ class RecipeIngredient(models.Model):
 
 
 class FavoriteRecipeManager(models.Manager):
+    class Meta:
+        verbose_name = "favorite recipe manager"
+        verbose_name_plural = "favorite recipe managers"
 
     @staticmethod
     def favorite_recipe(user, tags):
@@ -114,10 +116,6 @@ class FavoriteRecipeManager(models.Manager):
         favorite_list = Recipe.objects.tag_filter(tags).filter(
             pk__in=recipes_id).order_by('-pub_date')
         return favorite_list
-
-    class Meta:
-        verbose_name = "favorite recipe manager"
-        verbose_name_plural = "favorite recipe managers"
 
 
 class FavoriteRecipe(models.Model):
@@ -130,15 +128,18 @@ class FavoriteRecipe(models.Model):
 
     objects = FavoriteRecipeManager()
 
-    def __str__(self):
-        return f'{self.pk} - {self.user} - {self.recipe}'
-
     class Meta:
         verbose_name = "favorite recipe"
         verbose_name_plural = "favorite recipes"
 
+    def __str__(self):
+        return f'{self.pk} - {self.user} - {self.recipe}'
+
 
 class SubscriptionManager(models.Manager):
+    class Meta:
+        verbose_name = "subscription manager"
+        verbose_name_plural = "subscription managers"
 
     @staticmethod
     def subscriptions(user):
@@ -146,10 +147,6 @@ class SubscriptionManager(models.Manager):
         author_id = sub_obj.values_list('author', flat=True)
         subscriptions_list = User.objects.filter(pk__in=author_id)
         return subscriptions_list
-
-    class Meta:
-        verbose_name = "subscription manager"
-        verbose_name_plural = "subscription managers"
 
 
 class Subscription(models.Model):
@@ -162,15 +159,18 @@ class Subscription(models.Model):
 
     objects = SubscriptionManager()
 
-    def __str__(self):
-        return f'{self.pk} - {self.user} - {self.author}'
-
     class Meta:
         verbose_name = "subscription"
         verbose_name_plural = "subscriptions"
 
+    def __str__(self):
+        return f'{self.pk} - {self.user} - {self.author}'
+
 
 class ShoppingListManager(models.Manager):
+    class Meta:
+        verbose_name = "shopping list manager"
+        verbose_name_plural = "shopping list managers"
 
     @staticmethod
     def shopping_cart(user):
@@ -178,10 +178,6 @@ class ShoppingListManager(models.Manager):
         recipes_id = shop_obj.values_list('recipe', flat=True)
         cart = Recipe.objects.filter(pk__in=recipes_id)
         return cart
-
-    class Meta:
-        verbose_name = "shopping list manager"
-        verbose_name_plural = "shopping list managers"
 
 
 class ShoppingList(models.Model):
@@ -191,9 +187,9 @@ class ShoppingList(models.Model):
                                verbose_name='buyer recipe')
     objects = ShoppingListManager()
 
-    def __str__(self):
-        return f'{self.pk} - {self.user} - {self.recipe}'
-
     class Meta:
         verbose_name = "shopping list"
         verbose_name_plural = "shopping lists"
+
+    def __str__(self):
+        return f'{self.pk} - {self.user} - {self.recipe}'
