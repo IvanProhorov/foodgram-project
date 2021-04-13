@@ -10,8 +10,8 @@ from .forms import RecipeForm
 from .models import (FavoriteRecipe, Recipe, ShoppingList, Subscription, User)
 from .utils import save_to_file
 
-FORMAT = '[%(asctime)s] {%(pathname)s:%(lineno)d - %(funcName)s()} ' \
-         '%(levelname)s - %(message)s'
+FORMAT = ('[%(asctime)s] {%(pathname)s:%(lineno)d - %(funcName)s()} '
+          '%(levelname)s - %(message)s')
 logging.basicConfig(stream=sys.stdout, format=FORMAT)
 logger = logging.getLogger(__name__)
 
@@ -42,10 +42,9 @@ def new_recipe(request):
 
 @login_required
 def recipe_edit(request, username, recipe_id):
-    recipe = get_object_or_404(Recipe, author__username__exact=username,
+    recipe = get_object_or_404(Recipe, author__username=username,
                                pk=recipe_id)
-    print(username, request.user)
-    if username != str(request.user):
+    if recipe.author != request.user:
         return redirect('recipe_view', username, recipe_id)
     else:
         form = RecipeForm(request.POST or None, files=request.FILES or None,
@@ -60,9 +59,10 @@ def recipe_edit(request, username, recipe_id):
 
 @login_required
 def recipe_delete(request, username, recipe_id):
-    recipe = get_object_or_404(Recipe, author__username__exact=username,
+    recipe = get_object_or_404(Recipe, author__username=username,
                                pk=recipe_id)
-    if username != request.user:
+
+    if recipe.author != request.user:
         return redirect('recipe_view', username, recipe_id)
     else:
         recipe.delete()
@@ -81,7 +81,7 @@ def profile(request, username):
 
 
 def recipe_view(request, username, recipe_id):
-    recipe = get_object_or_404(Recipe, author__username__exact=username,
+    recipe = get_object_or_404(Recipe, author__username=username,
                                pk=recipe_id)
     return render(request, 'recipes/single_page.html',
                   {'author': username, 'recipe': recipe})

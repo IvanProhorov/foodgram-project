@@ -20,10 +20,6 @@ __all__ = [
 
 
 class Ingredient(models.Model):
-    class Meta:
-        verbose_name = "ingredient"
-        verbose_name_plural = "ingredients"
-
     title = models.CharField(max_length=255, verbose_name='ingredient title')
     dimension = models.CharField(max_length=64,
                                  verbose_name='ingredient dimension')
@@ -31,12 +27,12 @@ class Ingredient(models.Model):
     def __str__(self):
         return f'{self.pk} - {self.title} - {self.dimension}'
 
+    class Meta:
+        verbose_name = "ingredient"
+        verbose_name_plural = "ingredients"
+
 
 class Tag(models.Model):
-    class Meta:
-        verbose_name = "tag"
-        verbose_name_plural = "tags"
-
     title = models.CharField(max_length=50, verbose_name='tag title')
     slug = models.SlugField(max_length=50, verbose_name='tag slug',
                             unique=True)
@@ -45,11 +41,12 @@ class Tag(models.Model):
     def __str__(self):
         return f'{self.title}'
 
+    class Meta:
+        verbose_name = "tag"
+        verbose_name_plural = "tags"
+
 
 class RecipeManager(models.Manager):
-    class Meta:
-        verbose_name = "recipe manager"
-        verbose_name_plural = "recipe managers"
 
     @staticmethod
     def tag_filter(tags):
@@ -58,6 +55,10 @@ class RecipeManager(models.Manager):
                 '-pub_date').distinct()
         else:
             return Recipe.objects.order_by('-pub_date').all()
+
+    class Meta:
+        verbose_name = "recipe manager"
+        verbose_name_plural = "recipe managers"
 
 
 class Recipe(models.Model):
@@ -91,10 +92,6 @@ class Recipe(models.Model):
 
 
 class RecipeIngredient(models.Model):
-    class Meta:
-        verbose_name = "recipe ingredient"
-        verbose_name_plural = "recipe ingredients"
-
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE,
                                    related_name='amount',
                                    verbose_name='ingredient amount')
@@ -103,11 +100,12 @@ class RecipeIngredient(models.Model):
                                verbose_name='recipe amount')
     amount = models.PositiveIntegerField(validators=[MinValueValidator(1)])
 
+    class Meta:
+        verbose_name = "recipe ingredient"
+        verbose_name_plural = "recipe ingredients"
+
 
 class FavoriteRecipeManager(models.Manager):
-    class Meta:
-        verbose_name = "favorite recipe manager"
-        verbose_name_plural = "favorite recipe managers"
 
     @staticmethod
     def favorite_recipe(user, tags):
@@ -117,12 +115,12 @@ class FavoriteRecipeManager(models.Manager):
             pk__in=recipes_id).order_by('-pub_date')
         return favorite_list
 
+    class Meta:
+        verbose_name = "favorite recipe manager"
+        verbose_name_plural = "favorite recipe managers"
+
 
 class FavoriteRecipe(models.Model):
-    class Meta:
-        verbose_name = "favorite recipe"
-        verbose_name_plural = "favorite recipes"
-
     user = models.ForeignKey(User, on_delete=models.CASCADE,
                              related_name='favorites',
                              verbose_name='users favorite')
@@ -135,11 +133,12 @@ class FavoriteRecipe(models.Model):
     def __str__(self):
         return f'{self.pk} - {self.user} - {self.recipe}'
 
+    class Meta:
+        verbose_name = "favorite recipe"
+        verbose_name_plural = "favorite recipes"
+
 
 class SubscriptionManager(models.Manager):
-    class Meta:
-        verbose_name = "subscription manager"
-        verbose_name_plural = "subscription managers"
 
     @staticmethod
     def subscriptions(user):
@@ -148,12 +147,12 @@ class SubscriptionManager(models.Manager):
         subscriptions_list = User.objects.filter(pk__in=author_id)
         return subscriptions_list
 
+    class Meta:
+        verbose_name = "subscription manager"
+        verbose_name_plural = "subscription managers"
+
 
 class Subscription(models.Model):
-    class Meta:
-        verbose_name = "subscription"
-        verbose_name_plural = "subscriptions"
-
     user = models.ForeignKey(User, on_delete=models.CASCADE,
                              related_name='follower',
                              verbose_name='user follower')
@@ -166,11 +165,12 @@ class Subscription(models.Model):
     def __str__(self):
         return f'{self.pk} - {self.user} - {self.author}'
 
+    class Meta:
+        verbose_name = "subscription"
+        verbose_name_plural = "subscriptions"
+
 
 class ShoppingListManager(models.Manager):
-    class Meta:
-        verbose_name = "shopping list manager"
-        verbose_name_plural = "shopping list managers"
 
     @staticmethod
     def shopping_cart(user):
@@ -179,12 +179,12 @@ class ShoppingListManager(models.Manager):
         cart = Recipe.objects.filter(pk__in=recipes_id)
         return cart
 
+    class Meta:
+        verbose_name = "shopping list manager"
+        verbose_name_plural = "shopping list managers"
+
 
 class ShoppingList(models.Model):
-    class Meta:
-        verbose_name = "shopping list"
-        verbose_name_plural = "shopping lists"
-
     user = models.ForeignKey(User, on_delete=models.CASCADE,
                              verbose_name='buyer')
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE,
@@ -193,3 +193,7 @@ class ShoppingList(models.Model):
 
     def __str__(self):
         return f'{self.pk} - {self.user} - {self.recipe}'
+
+    class Meta:
+        verbose_name = "shopping list"
+        verbose_name_plural = "shopping lists"

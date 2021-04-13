@@ -19,9 +19,9 @@ def save_to_file(recipes):
     filename = 'shopping_list.txt'
     content = ''
     for ingredient in ingredients:
-        string = f'{ingredient["ingredients__title"]} ' \
-                 f'({ingredient["ingredients__dimension"]}) - ' \
-                 f'{ingredient["total_amount"]}'
+        string = (f'{ingredient["ingredients__title"]} '
+                  f'({ingredient["ingredients__dimension"]}) - '
+                  f'{ingredient["total_amount"]}')
         content += string + '\n'
     response = HttpResponse(content, content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename={0}'.format(
