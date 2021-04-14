@@ -73,6 +73,7 @@
                     </li>
 
                     <li class="single-card__item">
+
                         {% if request.user.is_authenticated and request.user != recipe.author %}
                             {% if recipe.author|is_subscribe:user %}
                                 <li class="single-card__item">

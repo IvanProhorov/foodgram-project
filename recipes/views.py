@@ -84,7 +84,7 @@ def recipe_view(request, username, recipe_id):
     recipe = get_object_or_404(Recipe, author__username=username,
                                pk=recipe_id)
     return render(request, 'recipes/single_page.html',
-                  {'author': username, 'recipe': recipe})
+                  {'author': recipe.author, 'recipe': recipe})
 
 
 @login_required
