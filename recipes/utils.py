@@ -15,7 +15,7 @@ def get_ingredients(request):
 def save_to_file(recipes):
     ingredients = recipes.values(
         'ingredients__title', 'ingredients__dimension').annotate(
-        total_amount=Sum('recipe_amount__amount'))
+        total_amount=Sum('amount__amount'))
     filename = 'shopping_list.txt'
     content = ''
     for ingredient in ingredients:
